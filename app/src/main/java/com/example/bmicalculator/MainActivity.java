@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         int feet = Integer.parseInt(feetText);
         int inches = Integer.parseInt(inchesText);
         int weight = Integer.parseInt(weightText);
+
+        int totalInches = (feet*12)+inches;
+        double heightInMeters = totalInches*0.0254;
+        double bmi = weight/(heightInMeters*heightInMeters);
     }
 
 }
