@@ -54,19 +54,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                displayResult(calculateBmi());
+                int age = Integer.parseInt(ageEditText.getText().toString());
+                if (age >= 18)
+                {
+                    displayResult(calculateBmi());
+                }else {
+                    displayGuidance(calculateBmi());
+                }
             }
         });
     }
 
     private double calculateBmi()
     {
-        String ageText = ageEditText.getText().toString();
         String feetText = feetEditText.getText().toString();
         String inchesText= inchesEditText.getText().toString();
         String weightText  = weightEditText.getText().toString();
 
-        int age = Integer.parseInt(ageText);
         int feet = Integer.parseInt(feetText);
         int inches = Integer.parseInt(inchesText);
         int weight = Integer.parseInt(weightText);
@@ -85,18 +89,35 @@ public class MainActivity extends AppCompatActivity {
         if (bmi<18.5)
         {
             fullResultString = bmiTextValue+" - You are underweight";
-            resultText.setText(fullResultString);
         }
         else if (bmi>25)
         {
             fullResultString = bmiTextValue+" - You are overweight";
-            resultText.setText(fullResultString);
         }
         else
         {
             fullResultString = bmiTextValue+" - You are a healthy weight";
-            resultText.setText(fullResultString);
         }
+        resultText.setText(fullResultString);
     }
+
+    private void displayGuidance(double bmi)
+    {
+        DecimalFormat myDecimalFormatter = new DecimalFormat("0.00");
+        String bmiTextValue = myDecimalFormatter.format(bmi);
+        String fullResultString;
+
+        if (maleRadioButton.isChecked())
+        {
+            fullResultString = bmiTextValue+" - as you are under 18, please consult with your doctor for the healthy range for boys.";
+        } else if (femaleRadioButton.isChecked()) {
+            fullResultString = bmiTextValue+" - as you are under 18, please consult with your doctor for the healthy range for girls.";
+        }else
+        {
+            fullResultString = bmiTextValue+" - as you are under 18, please consult with your doctor for the healthy range.";
+        }
+        resultText.setText(fullResultString);
+    }
+
 
 }
