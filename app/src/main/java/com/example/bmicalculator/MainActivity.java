@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView resultText;
@@ -52,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                calculateBmi();
+                displayResult(calculateBmi());
             }
         });
     }
 
-    private void calculateBmi()
+    private double calculateBmi()
     {
         String ageText = ageEditText.getText().toString();
         String feetText = feetEditText.getText().toString();
@@ -71,7 +73,30 @@ public class MainActivity extends AppCompatActivity {
 
         int totalInches = (feet*12)+inches;
         double heightInMeters = totalInches*0.0254;
-        double bmi = weight/(heightInMeters*heightInMeters);
+
+        return weight/(heightInMeters*heightInMeters);
+    }
+    private void displayResult(double bmi)
+    {
+        DecimalFormat myDecimalFormatter = new DecimalFormat("0.00");
+        String bmiTextValue = myDecimalFormatter.format(bmi);
+        String fullResultString;
+
+        if (bmi<18.5)
+        {
+            fullResultString = bmiTextValue+" - You are underweight";
+            resultText.setText(fullResultString);
+        }
+        else if (bmi>25)
+        {
+            fullResultString = bmiTextValue+" - You are overweight";
+            resultText.setText(fullResultString);
+        }
+        else
+        {
+            fullResultString = bmiTextValue+" - You are a healthy weight";
+            resultText.setText(fullResultString);
+        }
     }
 
 }
